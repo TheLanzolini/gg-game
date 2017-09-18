@@ -18,15 +18,7 @@ export default class Enemy {
     this.id = new Date().getTime()
     this.type = 'ENEMY'
   }
-
-  updateXSpeed(speed) {
-    this.options.xSpeed = speed
-  }
-
-  updateYSpeed(speed) {
-    this.options.ySpeed = speed
-  }
-
+  
   updatePosition() {
     this.options.x += this.options.xSpeed
     this.options.y += this.options.ySpeed

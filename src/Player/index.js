@@ -61,24 +61,16 @@ class Player {
   enableControl() {
     window.addEventListener('keydown', this.keyDown)
     window.addEventListener('keyup', this.keyUp)
-    this.updateXSpeed(10)
-    this.updateYSpeed(10)
+    this.options.xSpeed = 10
+    this.options.ySpeed = 10
     this.eventAttached = true
   }
 
   disableControl() {
     window.removeEventListener('keydown', this.keyDown)
     window.removeEventListener('keyup', this.keyUp)
-    this.updateXSpeed(0)
-    this.updateYSpeed(0)
-  }
-
-  updateXSpeed(speed) {
-    this.options.xSpeed = speed
-  }
-
-  updateYSpeed(speed) {
-    this.options.ySpeed = speed
+    this.options.xSpeed = 0
+    this.options.ySpeed = 0
   }
 
   updatePosition() {
