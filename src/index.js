@@ -1,64 +1,50 @@
-import Canvas, { canvasSize } from './Canvas'
-import Player from './Player'
-import Enemy from './Enemy'
-import ScissorEnemy from './ScissorEnemy'
+import canvasService from './canvas/canvas.service';
+import { Actor } from './actor/actor';
+import { QueueService } from './queue.service';
+const queueService = new QueueService();
 
-export const scene = new Canvas()
-export const player = new Player()
+const outline = new Actor(0, 0, canvasService.width, canvasService.height);
+class Dummy extends Actor {
+  constructor(...args) {
+    super(...args);
+  }
 
-const scissorEnemy = new ScissorEnemy()
-
-scene.addObject(player)
-// scene.addObject(scissorEnemy)
-// setInterval(() => {
-//   const enemy = new Enemy({ y: (Math.random() * (canvasSize.height -  25)) })
-//   scene.addObject(enemy)
-// }, 250)
-// let riffy = 20
-// const riffInterval = setInterval(() => {
-//   if (riffy > canvasSize.height + 50) {
-//     clearInterval(riffInterval)
-//   }
-//   const enemy = new Enemy({
-//     y: riffy,
-//     xSpeed: -10
-//   })
-//   riffy += 20
-//   scene.addObject(enemy)
-// }, 200)
-
-const fireRiff = (riffy = 20) => {
-  let nums = 7
-  const riffInterval = setInterval(() => {
-    if (nums == 1) {
-      clearInterval(riffInterval)
+  checkBounds() {
+    const shouldDestroy = this.xPos < 0 ||
+    this.xPos + this.width > canvasService.width ||
+    this.yPos < 0 ||
+    this.yPos + this.height > canvasService.height;
+    if (shouldDestroy) {
+      queueService.remove(this);
     }
-    nums--
-    const enemy = new Enemy({
-      y: riffy,
-      xSpeed: -10
-    })
-    riffy += 30
-    scene.addObject(enemy)
-  }, 150)
+  }
+
+  render() {
+    this.checkBounds();
+    canvasService.context.strokeStyle = 'black';
+    canvasService.context.fillStyle = 'red';
+    canvasService.context.fillRect(this.xPos, this.yPos, this.width, this.height);
+    canvasService.context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+    this.xPos += 10;
+    this.yPos += 10;
+  }
 }
-fireRiff()
-setTimeout(function(){
-  fireRiff(175)
-}, 1750)
 
-setTimeout(function(){
-  fireRiff(350)
-}, 3500)
+// todo delete from memory with an object
+// instead of defining them as const
+const dummy = new Dummy(10, 10, 10, 10);
 
 
-scene.render()
+queueService.add(outline);
+queueService.add(dummy);
 
-
-animateScenes(scene)
-
-function animateScenes(sc) {
-  sc.render()
-
-  window.requestAnimationFrame(animateScenes.bind(this, sc))
+function paint() {
+  // sc.render()
+  // canvas.render();
+  queueService.render();
+  setTimeout(() => {
+    window.requestAnimationFrame(paint);
+  }, 100);
 }
+
+paint()
