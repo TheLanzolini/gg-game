@@ -1,7 +1,7 @@
 import { Actor } from './actor/actor';
 
 
-export class QueueService {
+class QueueService {
 
   queue: Array<Actor>;
 
@@ -18,7 +18,10 @@ export class QueueService {
   }
 
   render(): void {
+    // console.log(this.queue)
     this.queue.forEach(actor => actor.render());
   }
 
 }
+
+export default new QueueService();

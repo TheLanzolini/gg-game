@@ -1,4 +1,5 @@
 import { Canvas } from './canvas'
+import { Actor } from '../actor/actor';
 
 class CanvasService {
 
@@ -12,6 +13,15 @@ class CanvasService {
     this.height = this.canvas.height;
     this.width = this.canvas.width;
     this.context = this.canvas.createCanvas();
+  }
+
+  checkInBounds(actor: Actor) {
+    return !(
+      actor.xPos < 0 ||
+      actor.yPos < 0 ||
+      actor.xPos + actor.width > this.width ||
+      actor.yPos + actor.height > this.height
+    )
   }
 
   get() {

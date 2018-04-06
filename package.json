@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Canvas Game",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server",
     "build": "webpack"
   },
   "main": "index.js",

@@ -6,25 +6,38 @@ export class Actor {
   yPos: number;
   width: number;
   height: number;
-  id: number;
+  strokeStyle: string;
+  fillStyle: string;
+  xSpeed: number;
+  ySpeed: number;
 
   constructor(
-    xPos: number,
-    yPos: number,
-    width: number,
-    height: number,
+    xPos: number = 0,
+    yPos: number = 0,
+    width: number = 10,
+    height: number = 10,
+    strokeStyle: string = 'black',
+    fillStyle: string = 'white',
+    xSpeed: number = 0,
+    ySpeed: number = 0
   ) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.width = width;
     this.height = height;
+    this.strokeStyle = strokeStyle;
+    this.fillStyle = fillStyle;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
   }
 
   render(): void {
-    canvasService.context.strokeStyle = 'black';
-    canvasService.context.fillStyle = 'white';
+    canvasService.context.strokeStyle = this.strokeStyle;
+    canvasService.context.fillStyle = this.fillStyle;
     canvasService.context.fillRect(this.xPos, this.yPos, this.width, this.height);
     canvasService.context.strokeRect(this.xPos, this.yPos, this.width, this.height);
+    this.xPos += this.xSpeed;
+    this.yPos += this.ySpeed;
   }
 
 }

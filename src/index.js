@@ -1,50 +1,31 @@
 import canvasService from './canvas/canvas.service';
+import queueService from './queue.service';
+import enemyService from './enemy/enemy.service';
+import controllerService from './controller.service';
 import { Actor } from './actor/actor';
-import { QueueService } from './queue.service';
-const queueService = new QueueService();
+import { Enemy } from './enemy/enemy';
+import { outline } from './canvas/outline.object';
+import { player } from './player/player.object';
 
-const outline = new Actor(0, 0, canvasService.width, canvasService.height);
-class Dummy extends Actor {
-  constructor(...args) {
-    super(...args);
-  }
-
-  checkBounds() {
-    const shouldDestroy = this.xPos < 0 ||
-    this.xPos + this.width > canvasService.width ||
-    this.yPos < 0 ||
-    this.yPos + this.height > canvasService.height;
-    if (shouldDestroy) {
-      queueService.remove(this);
-    }
-  }
-
-  render() {
-    this.checkBounds();
-    canvasService.context.strokeStyle = 'black';
-    canvasService.context.fillStyle = 'red';
-    canvasService.context.fillRect(this.xPos, this.yPos, this.width, this.height);
-    canvasService.context.strokeRect(this.xPos, this.yPos, this.width, this.height);
-    this.xPos += 10;
-    this.yPos += 10;
-  }
-}
-
-// todo delete from memory with an object
-// instead of defining them as const
-const dummy = new Dummy(10, 10, 10, 10);
-
-
+// const enemy = new Enemy(100, 100);
+// const player = new Player();
 queueService.add(outline);
-queueService.add(dummy);
+queueService.add(player);
+
+let paused = false;
+
+controllerService.subscribe(controls => {
+  if (controls.p) {
+    paused = !paused;
+  }
+})
 
 function paint() {
-  // sc.render()
-  // canvas.render();
-  queueService.render();
-  setTimeout(() => {
-    window.requestAnimationFrame(paint);
-  }, 100);
+  if (!paused) {
+    queueService.render();
+  }
+
+  window.requestAnimationFrame(paint);
 }
 
-paint()
+paint();
