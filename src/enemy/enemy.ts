@@ -6,12 +6,12 @@ export class Enemy extends Actor {
 
   constructor(...args) {
     super(...args);
-    this.fillStyle = 'red';
-    this.xSpeed = -5;
+    // this.fillStyle = 'red';
+    // this.xSpeed = -5;
   }
 
   render() {
-    if (canvasService.checkInBounds(this)) {
+    if (canvasService.checkInBoundsExceptRight(this)) {
       super.render();
     } else {
       enemyService.destroyEnemy(this);

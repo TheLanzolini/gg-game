@@ -15,7 +15,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'GG Game'
+      title: 'GG Game',
+      template: './index.html'
     })
   ],
   module: {
@@ -27,7 +28,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', {
+          loader: 'css-loader',
+          options: {
+            minimize: process.env.NODE_ENV === 'production'
+          }
+        }]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,

@@ -1,12 +1,19 @@
 import queueService from '../queue.service';
+import canvasService from '../canvas/canvas.service';
+import pauseService from '../pause.service';
 import { Enemy } from './enemy';
 
 
-class EnemyService {
+export class EnemyService {
 
   private interval;
   intervalTime: number;
-  private enemies: Array<Enemy>;
+  enemies: Array<Enemy>;
+  spawnX: number;
+  spawnY: number;
+  enemyHeight: number = 15;
+  enemyWidth: number = 15;
+  paused: boolean = false;
 
   constructor(
     intervalTime: number
@@ -15,6 +22,9 @@ class EnemyService {
     this.enemies = [];
     this.spawnEnemy();
     this.setInterval();
+    this.spawnX = canvasService.width;
+    this.newSpawnPoint();
+    pauseService.subscribe(p => this.paused = p);
   }
 
   setInterval() {
@@ -31,10 +41,17 @@ class EnemyService {
     window.clearInterval(this.interval);
   }
 
+  newSpawnPoint(): void {
+    this.spawnY = Math.round(Math.random() * (canvasService.height - this.enemyHeight));
+  }
+
   spawnEnemy() {
-    const enemy = new Enemy(500, 500);
-    this.enemies.push(enemy);
-    queueService.add(enemy);
+    if (!this.paused) {
+      const enemy = new Enemy(this.spawnX, this.spawnY, this.enemyWidth, this.enemyHeight, 'black', 'red', -5);
+      this.enemies.push(enemy);
+      queueService.add(enemy);
+      this.newSpawnPoint();
+    }
   }
 
   destroyEnemy(enemy) {

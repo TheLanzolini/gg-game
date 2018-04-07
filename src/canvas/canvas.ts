@@ -3,11 +3,12 @@ export class Canvas {
   context: CanvasRenderingContext2D;
   width: number;
   height: number;
+  target: HTMLElement;
 
   constructor(
-    width: number = 960,
+    width: number = 900,
     height: number = 600,
-    private target: HTMLElement = document.body
+    target: HTMLElement = document.body
   ) {
     this.width = width;
     this.height = height;
@@ -15,6 +16,7 @@ export class Canvas {
   }
 
   createCanvas(): CanvasRenderingContext2D {
+    this.target = document.getElementById('canvas-wrapper') || this.target;
     const $canvas = document.createElement('canvas');
     $canvas.height = this.height;
     $canvas.width = this.width;
