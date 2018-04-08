@@ -1,6 +1,7 @@
 import { Enemy } from '../enemy/enemy';
 import canvasService from '../canvas/canvas.service';
 import { Direction } from '../direction.interface';
+import BouncerService from './bouncer.service';
 
 export class Bouncer extends Enemy {
 
@@ -20,11 +21,11 @@ export class Bouncer extends Enemy {
       this.yPos = canvasService.height - this.height;
       this.ySpeed = this.ySpeed * -1;
     }
-    // this.y++;
-    // if (this.y === this.threshold) {
-    //   this.ySpeed = this.ySpeed * -1;
-    //   this.y = 0;
-    // }
-    super.render();
+    if (canvasService.checkInBoundsExceptRight(this)) {
+      super.render();
+    } else {
+      BouncerService.destroyEnemy(this);
+    }
+    // super.render();
   }
 }

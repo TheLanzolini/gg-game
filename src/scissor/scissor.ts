@@ -1,4 +1,6 @@
 import { Enemy } from '../enemy/enemy';
+import canvasService from '../canvas/canvas.service';
+import scissorService from './scissor.service';
 
 export class Scissor extends Enemy {
 
@@ -15,6 +17,11 @@ export class Scissor extends Enemy {
       this.ySpeed = this.ySpeed * -1;
       this.y = 0;
     }
-    super.render();
+    if (canvasService.checkInBoundsExceptRight(this)) {
+      super.render();
+    } else {
+      scissorService.destroyEnemy(this);
+    }
+    // super.render();
   }
 }

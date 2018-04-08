@@ -2,7 +2,14 @@ import queueService from '../queue.service';
 import canvasService from '../canvas/canvas.service';
 import pauseService from '../pause.service';
 import { Enemy } from './enemy';
+import difficultyService from '../difficulty.service';
 
+interface EnemyDifficulties {
+  Easy: number;
+  Medium: number;
+  Hard: number;
+  Insane: number;
+}
 
 export class EnemyService {
 
@@ -14,9 +21,10 @@ export class EnemyService {
   enemyHeight: number = 15;
   enemyWidth: number = 15;
   paused: boolean = false;
+  difficulties: EnemyDifficulties;
 
   constructor(
-    intervalTime: number
+    intervalTime: number = 1000
   ) {
     this.intervalTime = intervalTime;
     this.enemies = [];
@@ -25,13 +33,23 @@ export class EnemyService {
     this.spawnX = canvasService.width;
     this.newSpawnPoint();
     pauseService.subscribe(p => this.paused = p);
+    this.difficulties = {
+      Easy: 1000,
+      Medium: 500,
+      Hard: 250,
+      Insane: 100
+    }
+    difficultyService.subscribe(difficulty => {
+      const newDifficulty = this.difficulties[difficulty];
+      this.changeInterval(newDifficulty);
+    });
   }
 
   setInterval() {
     this.interval = setInterval(this.spawnEnemy.bind(this), this.intervalTime);
   }
 
-  changeInterval(intervalTime: number) {
+  changeInterval(intervalTime) {
     this.clearInterval();
     this.intervalTime = intervalTime;
     this.setInterval();
@@ -61,5 +79,5 @@ export class EnemyService {
 
 }
 
-const service =  new EnemyService(500);
+const service =  new EnemyService();
 export default service;

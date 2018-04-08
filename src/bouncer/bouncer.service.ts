@@ -8,22 +8,26 @@ class BouncerService extends EnemyService {
     super(interval);
     this.enemyWidth = 30;
     this.enemyHeight = 30;
+    this.difficulties = {
+      Easy: 2000,
+      Medium: 1500,
+      Hard: 1000,
+      Insane: 500
+    }
   }
 
   spawnEnemy() {
     if (!this.paused) {
-      console.log('spawning')
       const direction = Math.round(Math.random() * 10) > 5 ? -1 : 1;
-      const randomX = 3 + Math.round(Math.random() * 5);
-      const randomY = 3 + Math.round(Math.random() * 10 * direction);
-      const bouncer = new Bouncer(this.spawnX, this.spawnY, this.enemyWidth, this.enemyHeight, 'black', 'yellow', -1, 0);
+      const randomX = -3 - (Math.round(Math.random() * 3));
+      const randomY = (3 * direction) + (Math.round(Math.random() * 3 * direction));
+      const bouncer = new Bouncer(this.spawnX, this.spawnY, this.enemyWidth, this.enemyHeight, 'black', 'yellow', randomX, randomY);
       this.enemies.push(bouncer);
       queueService.add(bouncer);
       this.newSpawnPoint();
-      console.log(this.enemies);
     }
   }
 
 }
 
-export default new BouncerService(2500);
+export default new BouncerService(2000);

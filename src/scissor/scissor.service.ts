@@ -6,6 +6,12 @@ class ScissorService extends EnemyService {
 
   constructor(interval) {
     super(interval);
+    this.difficulties = {
+      Easy: 5000,
+      Medium: 2500,
+      Hard: 1000,
+      Insane: 500
+    }
   }
 
   spawnEnemy() {
