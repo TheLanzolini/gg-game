@@ -4,7 +4,8 @@
   "description": "A Canvas Game",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "deploy": "yarn build && git subtree push --prefix dist origin gh-pages"
   },
   "main": "index.js",
   "repository": "https://github.com/TheLanzolini/gg-game.git",
