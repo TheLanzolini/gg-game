@@ -21,13 +21,21 @@ queueService.add(player);
 
 const $pauseDisplay = document.getElementById('pause-display');
 const $fps = document.getElementById('fps');
+const $difficulties = document.getElementById('difficulties');
+
+difficultyService.changeDifficulty(Difficulties.Easy);
+Object.keys(Difficulties).forEach(d => {
+  const $button = document.createElement('button');
+  $button.textContent = d;
+  $button.addEventListener('click', e => {
+    difficultyService.changeDifficulty(Difficulties[d]);
+  });
+  $difficulties.appendChild($button);
+});
 
 let paused = false;
 
-difficultyService.subscribe(difficulty => {
-  console.log(difficulty);
-});
-difficultyService.changeDifficulty(Difficulties.Insane);
+
 // setTimeout(function() {
 //   difficultyService.changeDifficulty(Difficulties.Insane);
 // }, 10000);
