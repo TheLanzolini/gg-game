@@ -3,6 +3,7 @@ import canvasService from '../canvas/canvas.service';
 import pauseService from '../pause.service';
 import { Enemy } from './enemy';
 import difficultyService from '../difficulty.service';
+import fpsService from '../fps.service';
 
 interface EnemyDifficulties {
   Easy: number;
@@ -22,6 +23,7 @@ export class EnemyService {
   enemyWidth: number = 15;
   paused: boolean = false;
   difficulties: EnemyDifficulties;
+  xSpeed: number;
 
   constructor(
     intervalTime: number = 1000
@@ -42,6 +44,9 @@ export class EnemyService {
     difficultyService.subscribe(difficulty => {
       const newDifficulty = this.difficulties[difficulty];
       this.changeInterval(newDifficulty);
+    });
+    fpsService.subscribe(fps => {
+      this.xSpeed = fpsService.normalizeSpeed(-5);
     });
   }
 
@@ -65,7 +70,7 @@ export class EnemyService {
 
   spawnEnemy() {
     if (!this.paused) {
-      const enemy = new Enemy(this.spawnX, this.spawnY, this.enemyWidth, this.enemyHeight, 'black', 'red', -5);
+      const enemy = new Enemy(this.spawnX, this.spawnY, this.enemyWidth, this.enemyHeight, 'black', 'red', this.xSpeed);
       this.enemies.push(enemy);
       queueService.add(enemy);
       this.newSpawnPoint();

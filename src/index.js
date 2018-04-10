@@ -8,6 +8,7 @@ import bouncerService from './bouncer/bouncer.service';
 import controllerService from './controller.service';
 import pauseService from './pause.service';
 import difficultyService from './difficulty.service';
+import fpsService from './fps.service';
 
 import { Actor } from './actor/actor';
 import { Enemy } from './enemy/enemy';
@@ -35,30 +36,16 @@ Object.keys(Difficulties).forEach(d => {
 
 let paused = false;
 
-
-// setTimeout(function() {
-//   difficultyService.changeDifficulty(Difficulties.Insane);
-// }, 10000);
-
 pauseService.subscribe(p => {
   paused = p;
   $pauseDisplay.classList[p ? 'add' : 'remove']('active');
 });
-let i = 0;
-let n = 0;
-let last_i = 0;
-setInterval(() => {
-  n++;
-  const fps = i - last_i;
-  $fps.textContent = `FPS: ${fps}`;
-  last_i = i;
-  // console.log(n,i)
-}, 1000)
+
 function paint() {
   if (!paused) {
     queueService.render();
   }
-  i++;
+  fpsService.increment();
   // console.log(i);
 
   // setTimeout(() => {
