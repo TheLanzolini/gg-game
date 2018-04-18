@@ -1,16 +1,17 @@
+// interaction imports
 import canvasService from './canvas/canvas.service';
 import queueService from './queue.service';
-
-import enemyService from './enemy/enemy.service';
-import scissorService from './scissor/scissor.service';
-import bouncerService from './bouncer/bouncer.service';
-
 import controllerService from './controller.service';
 import pauseService from './pause.service';
 import difficultyService from './difficulty.service';
 import fpsService from './fps.service';
+import collisionService from './collision.service';
 
-import { Actor } from './actor/actor';
+// object service imprts
+import enemyService from './enemy/enemy.service';
+import scissorService from './scissor/scissor.service';
+import bouncerService from './bouncer/bouncer.service';
+
 import { Enemy } from './enemy/enemy';
 import { outline } from './canvas/outline.object';
 import { player } from './player/player.object';

@@ -1,4 +1,6 @@
 import canvasService from '../canvas/canvas.service';
+import collisionService from '../collision.service';
+import { Qs } from '../collision.service';
 // console.log(CanvasService)
 export class Actor {
 
@@ -10,6 +12,7 @@ export class Actor {
   fillStyle: string;
   xSpeed: number;
   ySpeed: number;
+  quadrant: Qs;
 
   constructor(
     xPos: number = 0,
@@ -29,6 +32,7 @@ export class Actor {
     this.fillStyle = fillStyle;
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
+    this.quadrant = collisionService.determineQuadrant(this);
   }
 
   render(): void {

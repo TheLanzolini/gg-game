@@ -4,9 +4,6 @@ import fpsService from '../fps.service';
 
 export const player = new Player();
 
-// note this should be a sub in case fps changes
-
-
 fpsService.subscribe(fps => {
   const speedPositive = fpsService.normalizeSpeed(5);
   const speedNegative = fpsService.normalizeSpeed(-5);

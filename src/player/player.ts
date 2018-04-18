@@ -1,6 +1,8 @@
 import { Actor } from '../actor/actor';
 import canvasService from '../canvas/canvas.service';
 import { Direction } from '../direction.interface';
+import collisionService from '../collision.service';
+import enemyService from '../enemy/enemy.service';
 
 export class Player extends Actor {
   constructor() {
@@ -25,6 +27,13 @@ export class Player extends Actor {
       this.xPos = canvasService.width - this.width;
       this.xSpeed = 0;
     }
+    // enemyService.enemies.forEach(enemy => {
+    //   if(collisionService.checkCollision(this, enemy)) {
+    //     enemy.fillStyle = 'cyan';
+    //     console.log('hit!', enemy);
+    //   }
+    // });
+    // console.log('Quadrant: ', collisionService.determineQuadrant(this));
     super.render();
   }
 }

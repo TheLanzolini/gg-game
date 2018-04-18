@@ -1,6 +1,8 @@
 import { Actor } from '../actor/actor';
 import canvasService from '../canvas/canvas.service';
 import enemyService from './enemy.service';
+import collisionService from '../collision.service';
+import { player } from '../player/player.object';
 
 export class Enemy extends Actor {
 
@@ -12,6 +14,9 @@ export class Enemy extends Actor {
 
   render() {
     if (canvasService.checkInBoundsExceptRight(this)) {
+      if (collisionService.checkCollision(player, this)) {
+        this.fillStyle = 'cyan';
+      }
       super.render();
     } else {
       enemyService.destroyEnemy(this);
